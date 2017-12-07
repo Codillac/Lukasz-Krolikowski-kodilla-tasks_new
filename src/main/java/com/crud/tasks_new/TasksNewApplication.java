@@ -2,14 +2,12 @@ package com.crud.tasks_new;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
 //public class TasksApplication extends SpringBootServletInitializer {
-public class TasksApplication {
+public class TasksNewApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(TasksApplication.class, args);
+		SpringApplication.run(TasksNewApplication.class, args);
 	}
 
 //	@Override
