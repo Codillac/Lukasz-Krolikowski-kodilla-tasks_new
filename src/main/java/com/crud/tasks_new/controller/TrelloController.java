@@ -1,6 +1,6 @@
 package com.crud.tasks_new.controller;
 
-import com.crud.tasks_new.domain.CreatedTrelloCard;
+import com.crud.tasks_new.domain.createdTrelloCard.CreatedTrelloCard;
 import com.crud.tasks_new.domain.TrelloBoardDto;
 import com.crud.tasks_new.domain.TrelloCardDto;
 import com.crud.tasks_new.trello.client.TrelloClient;
