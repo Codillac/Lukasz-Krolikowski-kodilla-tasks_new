@@ -1,6 +1,9 @@
 package com.crud.tasks_new.trello.client;
 
+import com.crud.tasks_new.domain.CreatedTrelloCard;
 import com.crud.tasks_new.domain.TrelloBoardDto;
+import com.crud.tasks_new.domain.TrelloCardDto;
+import com.crud.tasks_new.trello.config.TrelloConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,37 +11,33 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloClientTest {
 
     @InjectMocks
-    TrelloClient trelloClient;
+    private TrelloClient trelloClient;
 
     @Mock
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Mock
-    TrelloBoardDto trelloBoardDto;
+    private TrelloConfig trelloConfig;
 
     @Before
-    public void setUrl() {
-        try {
-            Field field = trelloClient.getClass().getDeclaredField("trelloApiEndpoint");
-            field.setAccessible(true);
-            field.set(trelloClient, "http://test.com");
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    public void init() {
+        when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
+        when(trelloConfig.getTrelloAppKey()).thenReturn("test");
+        when(trelloConfig.getTrelloToken()).thenReturn("test");
+        when(trelloConfig.getUserName()).thenReturn("ukaszkrolikowski");
     }
 
     @Test
@@ -57,6 +56,7 @@ public class TrelloClientTest {
     public void getTrelloBoardsTestWithSomeBoards() {
         //Given
         TrelloBoardDto[] sampleBoardDto = new TrelloBoardDto[3];
+
         when(restTemplate.getForObject(trelloClient.buildUrl(), TrelloBoardDto[].class)).thenReturn(sampleBoardDto);
 
         //When
@@ -66,4 +66,46 @@ public class TrelloClientTest {
         Assert.assertEquals(3,resultListOfBoards.size());
     }
 
+    @Test
+    public void shouldFetchTrelloBoards() throws URISyntaxException {
+        //Given
+        TrelloBoardDto[] trelloBoards = new TrelloBoardDto[1];
+        trelloBoards[0] = new TrelloBoardDto("test_name", "test_id", new ArrayList<>());
+
+        URI uri = new URI("http://test.com/members/ukaszkrolikowski/boards?key=test&token=test&fields=name,id&lists=all");
+
+        when(restTemplate.getForObject(uri, TrelloBoardDto[].class)).thenReturn(trelloBoards);
+
+        //When
+        List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
+
+        //Then
+        Assert.assertEquals(1, fetchedTrelloBoards.size());
+        Assert.assertEquals("test_id", fetchedTrelloBoards.get(0).getId());
+        Assert.assertEquals("test_name", fetchedTrelloBoards.get(0).getName());
+        Assert.assertEquals(new ArrayList<>(), fetchedTrelloBoards.get(0).getLists());
+    }
+
+    @Test
+    public void shouldCreateCard() throws URISyntaxException {
+        //Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto("Test task", "Test Description", "top", "test_id");
+
+        URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
+
+        CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
+                "1",
+                "Test task",
+                "http://test.com"
+        );
+
+        when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
+        //When
+        CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+
+        //Then
+        Assert.assertEquals("1", newCard.getId());
+        Assert.assertEquals("Test task", newCard.getName());
+        Assert.assertEquals("http://test.com", newCard.getShortUrl());
+    }
 }
