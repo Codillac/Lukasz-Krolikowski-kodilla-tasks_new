@@ -108,4 +108,16 @@ public class TrelloClientTest {
         Assert.assertEquals("Test task", newCard.getName());
         Assert.assertEquals("http://test.com", newCard.getShortUrl());
     }
+
+    @Test
+    public void shouldReturnEmptyList() {
+        //Given
+        when(restTemplate.getForObject(trelloClient.buildUrl(), TrelloBoardDto[].class)).thenReturn(null);
+
+        //When
+        List<TrelloBoardDto> resultList = trelloClient.getTrelloBoards();
+
+        //Then
+        Assert.assertEquals(0, resultList.size());
+    }
 }
