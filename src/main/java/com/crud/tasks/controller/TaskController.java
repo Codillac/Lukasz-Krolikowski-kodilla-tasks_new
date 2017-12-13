@@ -43,7 +43,7 @@ public class TaskController {
         return taskMapper.mapToTaskDto(dbService.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
