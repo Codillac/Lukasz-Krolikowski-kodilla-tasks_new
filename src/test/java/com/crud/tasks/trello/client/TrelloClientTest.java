@@ -1,9 +1,12 @@
-package com.crud.tasks_new.trello.client;
+package com.crud.tasks.trello.client;
 
-import com.crud.tasks_new.domain.CreatedTrelloCard;
-import com.crud.tasks_new.domain.TrelloBoardDto;
-import com.crud.tasks_new.domain.TrelloCardDto;
-import com.crud.tasks_new.trello.config.TrelloConfig;
+import com.crud.tasks.domain.createdTrelloCard.AttachmentsByType;
+import com.crud.tasks.domain.createdTrelloCard.Badges;
+import com.crud.tasks.domain.createdTrelloCard.CreatedTrelloCard;
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.domain.createdTrelloCard.Trello;
+import com.crud.tasks.trello.config.TrelloConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,7 +99,7 @@ public class TrelloClientTest {
         CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
                 "1",
                 "Test task",
-                "http://test.com"
+                "http://test.com", new Badges(0, new AttachmentsByType(new Trello(0, 0)))
         );
 
         when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);

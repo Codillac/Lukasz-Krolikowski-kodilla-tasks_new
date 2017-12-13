@@ -1,9 +1,9 @@
-package com.crud.tasks_new.trello.client;
+package com.crud.tasks.trello.client;
 
-import com.crud.tasks_new.domain.createdTrelloCard.CreatedTrelloCard;
-import com.crud.tasks_new.domain.TrelloBoardDto;
-import com.crud.tasks_new.domain.TrelloCardDto;
-import com.crud.tasks_new.trello.config.TrelloConfig;
+import com.crud.tasks.domain.createdTrelloCard.CreatedTrelloCard;
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.trello.config.TrelloConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

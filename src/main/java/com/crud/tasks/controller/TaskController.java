@@ -1,8 +1,8 @@
-package com.crud.tasks_new.controller;
+package com.crud.tasks.controller;
 
-import com.crud.tasks_new.domain.TaskDto;
-import com.crud.tasks_new.mapper.TaskMapper;
-import com.crud.tasks_new.service.DbService;
+import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
+import com.crud.tasks.service.DbService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,9 +1,9 @@
-package com.crud.tasks_new.controller;
+package com.crud.tasks.controller;
 
-import com.crud.tasks_new.domain.createdTrelloCard.CreatedTrelloCard;
-import com.crud.tasks_new.domain.TrelloBoardDto;
-import com.crud.tasks_new.domain.TrelloCardDto;
-import com.crud.tasks_new.trello.client.TrelloClient;
+import com.crud.tasks.domain.createdTrelloCard.CreatedTrelloCard;
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.crud.tasks_new.domain;
+package com.crud.tasks.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
