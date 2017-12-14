@@ -7,15 +7,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskDto {
 
-    @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("title")
     private String title;
-
-    @JsonProperty("content")
     private String content;
 }
