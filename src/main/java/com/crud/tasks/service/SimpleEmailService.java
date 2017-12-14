@@ -16,22 +16,26 @@ public class SimpleEmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void send(final String receiverMail, final String subject, final String message) {
+    public void send(final String receiverEmail, final String subject, final String message) {
 
         LOGGER.info("Starting email preoaration...");
 
         try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo(receiverMail);
-            mailMessage.setSubject(subject);
-            mailMessage.setText(message);
 
+            SimpleMailMessage mailMessage = createMailMessage(receiverEmail, subject, message);
             javaMailSender.send(mailMessage);
 
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
         }
+    }
 
+    private SimpleMailMessage createMailMessage(final String receiverEmail, final String subject, final String message) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(receiverEmail);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        return  mailMessage;
     }
 }
