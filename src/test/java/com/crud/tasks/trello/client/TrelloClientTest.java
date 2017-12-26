@@ -2,7 +2,7 @@ package com.crud.tasks.trello.client;
 
 import com.crud.tasks.domain.createdTrelloCard.AttachmentsByType;
 import com.crud.tasks.domain.createdTrelloCard.Badges;
-import com.crud.tasks.domain.createdTrelloCard.CreatedTrelloCard;
+import com.crud.tasks.domain.createdTrelloCard.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.domain.createdTrelloCard.Trello;
@@ -96,15 +96,15 @@ public class TrelloClientTest {
 
         URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
 
-        CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto(
                 "1",
                 "Test task",
                 "http://test.com", new Badges(0, new AttachmentsByType(new Trello(0, 0)))
         );
 
-        when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
+        when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class)).thenReturn(createdTrelloCardDto);
         //When
-        CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+        CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
 
         //Then
         Assert.assertEquals("1", newCard.getId());
