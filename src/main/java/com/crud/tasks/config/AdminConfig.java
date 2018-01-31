@@ -21,4 +21,7 @@ public class AdminConfig {
 
     @Value("${company.phone}")
     private String companyPhone;
+
+    @Value("${admin.sex}")
+    private String adminSex;
 }
