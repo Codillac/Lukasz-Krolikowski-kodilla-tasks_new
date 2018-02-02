@@ -1,6 +1,7 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,13 @@ import org.thymeleaf.context.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MailCreatorService {
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Autowired
     private AdminConfig adminConfig;
@@ -38,5 +43,20 @@ public class MailCreatorService {
         context.setVariable("admin_config", adminConfig);
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
+    }
+
+    public String buildNumberOfTasksEmail() {
+        String ending = (taskRepository.count() != 1) ? "s" : "";
+
+        List<String> tasks = taskRepository.findAll().stream()
+                .map(task -> task.getId() + ". " + task.getTitle())
+                .collect(Collectors.toList());
+
+        Context context = new Context();
+        context.setVariable("admin_config", adminConfig);
+        context.setVariable("is_admin_male", adminConfig.getAdminSex().equals("male"));
+        context.setVariable("number_of_tasks", "You have " + taskRepository.count() + " task" + ending + "in a database.");
+        context.setVariable("tasks", tasks);
+        return templateEngine.process("mail/number-of-tasks-in-database-mail", context);
     }
 }
