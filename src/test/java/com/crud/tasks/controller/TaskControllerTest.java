@@ -54,7 +54,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDtoList(any())).thenReturn(taskDtoList);
 
         //When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -77,7 +77,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(any())).thenReturn(testTask);
 
         //When & Then
-        mockMvc.perform(get("/v1/task/getTask?taskId=5").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks/5").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(5)))
                 .andExpect(jsonPath("$.title", is("Test task")))
@@ -103,7 +103,7 @@ public class TaskControllerTest {
         }).when(dbService).deleteTask(taskId);
 
         //When & then
-        mockMvc.perform(delete("/v1/task/deleteTask?taskId=2").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/v1/tasks/2").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
         Assert.assertEquals(2, taskDtoList.size());
     }
@@ -121,7 +121,7 @@ public class TaskControllerTest {
         String jsonContent = gson.toJson(toUpdateTaskDto);
 
         //When & then
-        mockMvc.perform(put("/v1/task/updateTask").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/v1/tasks").contentType(MediaType.APPLICATION_JSON)
         .characterEncoding("UTF-8")
         .content(jsonContent))
                 .andExpect(status().isOk())
@@ -152,7 +152,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(any())).thenReturn(toCreateTask);
 
         //When & then
-        mockMvc.perform(post("/v1/task/createTask").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(jsonContent))
+        mockMvc.perform(post("/v1/tasks").contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(jsonContent))
                 .andExpect(status().isOk());
         Assert.assertEquals(1, tasks.size());
         Assert.assertEquals(1L, tasks.get(0).getId().longValue());
